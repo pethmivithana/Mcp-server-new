@@ -1,0 +1,21 @@
+John Doe
+
+Summary
+Experienced software developer with expertise in Node.js and React.
+
+Work Experience
+Acme Corp - Software Engineer (2022-2024)
+BetaTech - Junior Developer (2020-2022)
+
+Education
+B.Sc. in Computer Science - University of Colombo (2016-2020)
+
+Skills
+JavaScript, Node.js, React, Tailwind CSS
+
+Projects
+MCP Chat App - A CV Q&A tool
+Portfolio Website - Personal showcase
+
+Certifications
+AWS Certified Developer
