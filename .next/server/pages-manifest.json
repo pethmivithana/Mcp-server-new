@@ -1,0 +1,9 @@
+{
+  "/_app": "pages/_app.js",
+  "/_error": "pages/_error.js",
+  "/_document": "pages/_document.js",
+  "/api/upload-cv": "pages/api/upload-cv.js",
+  "/api/mcp/ask": "pages/api/mcp/ask.js",
+  "/": "pages/index.js",
+  "/api/send-email": "pages/api/send-email.js"
+}

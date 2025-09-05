@@ -1,0 +1,52 @@
+{
+  "rawText": "John Doe\n\nSummary\nExperienced software developer with expertise in Node.js and React.\n\nWork Experience\nAcme Corp - Software Engineer (2022-2024)\nBetaTech - Junior Developer (2020-2022)\n\nEducation\nB.Sc. in Computer Science - University of Colombo (2016-2020)\n\nSkills\nJavaScript, Node.js, React, Tailwind CSS\n\nProjects\nMCP Chat App - A CV Q&A tool\nPortfolio Website - Personal showcase\n\nCertifications\nAWS Certified Developer",
+  "sections": {
+    "summary": [
+      "John Doe",
+      "Summary",
+      "Experienced software developer with expertise in Node.js and React."
+    ],
+    "experience": [
+      "Work Experience",
+      "Acme Corp - Software Engineer (2022-2024)",
+      "BetaTech - Junior Developer (2020-2022)"
+    ],
+    "education": [
+      "Education",
+      "B.Sc. in Computer Science - University of Colombo (2016-2020)"
+    ],
+    "skills": [
+      "Skills",
+      "JavaScript, Node.js, React, Tailwind CSS"
+    ],
+    "projects": [
+      "Projects",
+      "MCP Chat App - A CV Q&A tool",
+      "Portfolio Website - Personal showcase"
+    ],
+    "certifications": [
+      "Certifications",
+      "AWS Certified Developer"
+    ]
+  },
+  "employment": [
+    {
+      "company": "Acme",
+      "role": "Corp - Software Engineer",
+      "dates": "2022-2024",
+      "source": "Acme Corp - Software Engineer (2022-2024)"
+    },
+    {
+      "company": "BetaTech",
+      "role": "Junior Developer",
+      "dates": "2020-2022",
+      "source": "BetaTech - Junior Developer (2020-2022)"
+    }
+  ],
+  "lastRole": {
+    "company": "BetaTech",
+    "role": "Junior Developer",
+    "dates": "2020-2022",
+    "source": "BetaTech - Junior Developer (2020-2022)"
+  }
+}
