@@ -1,23 +1,21 @@
 // pages/api/upload-cv.js
 import formidable from 'formidable';
-import fs from 'fs';
-import path from 'path';
 import pdfParse from 'pdf-parse';
 import mammoth from 'mammoth';
 import { parseCVToJSON, saveCVJson } from '../../cv-praser.js';
+import fs from 'fs/promises';
 
-export const config = { api: { bodyParser: false } };
+export const config = {
+  api: { bodyParser: false }
+};
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const uploadDir = './uploads';
-  if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
-
   const form = formidable({
     multiples: false,
-    uploadDir,
     keepExtensions: true,
+    // No uploadDir; files will be handled in memory or temp
   });
 
   form.parse(req, async (err, fields, files) => {
@@ -26,25 +24,26 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: 'Error parsing upload' });
     }
 
-    // Formidable may return file as array if multiples=false? Ensure object
     let file = files.file;
     if (!file) return res.status(400).json({ error: 'No file uploaded' });
     if (Array.isArray(file)) file = file[0];
 
     try {
       let rawText = '';
-      const filename = file.originalFilename || file.newFilename || 'unknown';
-      const ext = path.extname(filename).toLowerCase();
+      const filename = file.originalFilename || '';
+      const ext = filename.split('.').pop().toLowerCase();
 
-      if (ext === '.pdf') {
-        const dataBuffer = fs.readFileSync(file.filepath);
-        const data = await pdfParse(dataBuffer);
+      // Read file buffer from temporary path
+      const buffer = await fs.readFile(file.filepath);
+
+      if (ext === 'pdf') {
+        const data = await pdfParse(buffer);
         rawText = data.text;
-      } else if (ext === '.docx') {
-        const data = await mammoth.extractRawText({ path: file.filepath });
+      } else if (ext === 'docx') {
+        const data = await mammoth.extractRawText({ buffer });
         rawText = data.value;
-      } else if (ext === '.txt') {
-        rawText = fs.readFileSync(file.filepath, 'utf-8');
+      } else if (ext === 'txt') {
+        rawText = buffer.toString('utf-8');
       } else {
         return res.status(400).json({ error: 'Unsupported file type: ' + ext });
       }
