@@ -15,6 +15,7 @@
   "type": "module",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.17.5",
+    "cloudinary": "^2.7.0",
     "express": "^5.1.0",
     "formidable": "^3.5.4",
     "mammoth": "^1.10.0",
