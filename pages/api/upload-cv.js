@@ -5,6 +5,14 @@ import pdfParse from 'pdf-parse';
 import mammoth from 'mammoth';
 import { parseCVToJSON, saveCVJson } from '../../cv-praser.js';
 
+// Node fetch fallback for Node <18
+let fetchFn;
+try {
+  fetchFn = fetch; // Node 18+ has global fetch
+} catch {
+  fetchFn = (await import('node-fetch')).default; // fallback for older Node
+}
+
 export const config = { api: { bodyParser: false } };
 
 // Cloudinary setup
@@ -15,18 +23,21 @@ cloudinary.config({
 });
 
 export default async function handler(req, res) {
-  if (req.method !== 'POST')
+  if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
+  }
 
   const form = formidable({ multiples: false });
 
   form.parse(req, async (err, fields, files) => {
     if (err) {
       console.error('Formidable parse error:', err);
-      return res.status(500).json({ error: 'Error parsing upload' });
+      return res.status(500).json({ error: 'Error parsing upload', details: err.message });
     }
 
     let file = files.file;
+    console.log('Uploaded file:', file); // Debug log for Vercel / local
+
     if (!file) return res.status(400).json({ error: 'No file uploaded' });
     if (Array.isArray(file)) file = file[0];
 
@@ -42,11 +53,11 @@ export default async function handler(req, res) {
         ? file.originalFilename.split('.').pop().toLowerCase()
         : '';
 
-      // Get file buffer from Cloudinary URL
-      const response = await fetch(fileUrl);
+      // Fetch file from Cloudinary URL
+      const response = await fetchFn(fileUrl);
       const buffer = Buffer.from(await response.arrayBuffer());
 
-      // Parse text depending on type
+      // Extract text based on file type
       let rawText = '';
       if (ext === 'pdf') {
         const data = await pdfParse(buffer);
@@ -67,7 +78,7 @@ export default async function handler(req, res) {
       return res.status(200).json({ success: true, fileUrl, parsed: cvJson });
     } catch (e) {
       console.error('CV parse/save error:', e);
-      return res.status(500).json({ error: 'Failed to process CV' });
+      return res.status(500).json({ error: e.message, stack: e.stack });
     }
   });
 }
