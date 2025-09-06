@@ -3,5 +3,6 @@
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
   "/": "pages/index.js",
-  "/api/upload-cv": "pages/api/upload-cv.js"
+  "/api/upload-cv": "pages/api/upload-cv.js",
+  "/api/mcp/ask": "pages/api/mcp/ask.js"
 }
